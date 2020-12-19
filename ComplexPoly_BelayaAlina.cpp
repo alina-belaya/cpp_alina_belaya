@@ -26,18 +26,21 @@ void Complex::print(ostream& out) const
     out << "(" << re << showpos << im << noshowpos << "i)";
 }
 
+//оператор додавання комплексних чисел
 Complex Complex::operator+(Complex c2)
 {
     Complex res(re + c2.real(), im + c2.imag());
     return res;
 }
 
+//оператор віднімання комплексних чисел
 Complex Complex::operator-(Complex c2)
 {
     Complex res(re - c2.real(), im - c2.imag());
     return res;
 }
 
+//оператор множення комплексних чисел
 Complex Complex::operator*(Complex c2)
 {
     double r = re * c2.real() - im * c2.imag();
@@ -46,6 +49,7 @@ Complex Complex::operator*(Complex c2)
     return res;
 }
 
+//оператор піднесення до степеня комплексних чисел
 Complex Complex::operator^(int power)
 {
     if (power == 0)
@@ -63,13 +67,14 @@ ostream& operator<<(ostream& out, const Complex& cp) {
     return out;
 }
 
-//створення порожнього массиву коефіцієнтів та степенів х для подальшого заповнення
+//створення порожнього массиву коефіцієнтів для подальшого заповнення
 Polynomial::Polynomial()
 {
     coefficients = nullptr;
     numberOfTerms = 0;
 }
 
+//заповнення массиву коефіцієнтів
 Polynomial::Polynomial(Complex* coeffs, int n)
 {
     coefficients = new Complex[n];
@@ -81,7 +86,7 @@ Polynomial::Polynomial(Complex* coeffs, int n)
 void Polynomial::printPolynomial(ostream& out) const
 {
     if (numberOfTerms == 0)
-        cout << '0' << endl;
+        cout << '0' << endl; //вивести 0, якщо не були введені коефіцієнти
 
     for (int i = numberOfTerms - 1; i > 0; i--)
         out << coefficients[i] << "x^" << i << " + ";
@@ -109,7 +114,7 @@ Polynomial& Polynomial::operator=(const Polynomial& other)
 // оператор додавання
 Polynomial Polynomial::operator+(const Polynomial& other) const
 {
-    int maxOfTerms;
+    int maxOfTerms; //старший коефіцієнт
     if (other.numberOfTerms > numberOfTerms)
         maxOfTerms = other.numberOfTerms;
     else
@@ -121,8 +126,7 @@ Polynomial Polynomial::operator+(const Polynomial& other) const
     for (int i = 0; i < maxOfTerms; i++)
     {
         poly_coeff[i] = zero;
-        if (i < numberOfTerms)
-            poly_coeff[i] = poly_coeff[i] + (coefficients[i]);
+        poly_coeff[i] = poly_coeff[i] + (coefficients[i]);
         if (i < other.numberOfTerms)
             poly_coeff[i] = poly_coeff[i] + (other.coefficients[i]);
     }
@@ -140,7 +144,7 @@ Polynomial Polynomial::operator+(const Polynomial& other) const
 // оператор віднімання
 Polynomial Polynomial::operator-(const Polynomial& other) const
 {
-    int maxOfTerms;
+    int maxOfTerms; //старший коефіцієнт
     if (other.numberOfTerms > numberOfTerms)
         maxOfTerms = other.numberOfTerms;
     else
@@ -152,8 +156,7 @@ Polynomial Polynomial::operator-(const Polynomial& other) const
     for (int i = 0; i < maxOfTerms; i++)
     {
         poly_coeff[i] = zero;
-        if (i < numberOfTerms)
-            poly_coeff[i] = poly_coeff[i] + coefficients[i];
+        poly_coeff[i] = poly_coeff[i] + coefficients[i];
         if (i < other.numberOfTerms)
             poly_coeff[i] = poly_coeff[i] - other.coefficients[i];
     }
@@ -168,6 +171,7 @@ Polynomial Polynomial::operator-(const Polynomial& other) const
     return poly;
 }
 
+// оператор множення
 Polynomial Polynomial::operator*(const Polynomial& other) const
 {
     int maxOfTerms, degree, s = 0;
@@ -189,10 +193,10 @@ Polynomial Polynomial::operator*(const Polynomial& other) const
             s++;
         }
 
-    for (int i = 0; i < maxOfTerms; i++)
+    /*for (int i = 0; i < maxOfTerms; i++)
     {
         cout << "poly_coeff[i] " << poly_coeff[i] << endl;
-    }
+    }*/
 
     Polynomial poly(poly_coeff, degree);
 
@@ -217,6 +221,7 @@ Polynomial& Polynomial::operator*=(const Polynomial& r)
     return *this;
 }
 
+// похідна поліному
 Polynomial Polynomial::derivative()
 {
     Complex * poly_coeff = new Complex[numberOfTerms - 1];
@@ -240,6 +245,7 @@ Polynomial Polynomial::derivative()
     return der;
 }
 
+// значення поліному в точці х
 Complex Polynomial::value(Complex x)
 {
     Complex c;

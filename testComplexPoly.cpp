@@ -3,6 +3,7 @@
 #include "ComplexPoly_BelayaAlina.h"
 using namespace std;
 
+// розділення введених в строку коефіцієнтів
 template <class Container>
 void split(const string& str, Container& container)
 {
@@ -14,6 +15,7 @@ void split(const string& str, Container& container)
     copy(vstrings.begin(), vstrings.end(), back_inserter(container));
 }
 
+// розділення коефіцієнтів на дійсну та уявну частини
 Complex* get_coefficients(vector<string> vect, int size)
 {
     Complex* result = new Complex[size];
@@ -76,12 +78,12 @@ void start(string a_string, string b_string, string x_string)
         Polynomial divis = a - b;
         cout << divis << endl;
 
+        cout << "\nTest polynomial deviation\n";
+        cout << a.derivative() << endl;
+
         cout << "\nA * B\n";
         Polynomial multi = a * b;
         cout << multi << endl;
-
-        cout << "\nTest polynomial deviation\n";
-        cout << a.derivative() << endl;
     }
     else if (out == 1)
     {
@@ -102,11 +104,11 @@ void start(string a_string, string b_string, string x_string)
         output << "\nA - B\n";
         output << a - b << endl;
 
-        output << "\nA * B\n";
-        output << a * b << endl;
-
         output << "\nDerivative\n";
         output << a.derivative() << endl;
+
+        output << "\nA * B\n";
+        output << a * b << endl;
     }
     else
     {
