@@ -79,12 +79,19 @@ Polynomial::Polynomial(Complex* coeffs, int n)
 {
     coefficients = new Complex[n];
     numberOfTerms = n;
-    for (int i = 0; i < n; i++) coefficients[i] = coeffs[i];
+
+    for (int i = 0; i < n; i++)
+        coefficients[i] = coeffs[i];
 }
 
 // вивід поліному
 void Polynomial::printPolynomial(ostream& out) const
 {
+    Complex* coef = new Complex[numberOfTerms];
+
+    for (int i = 0; i < numberOfTerms; i++)
+        coef[i] = coefficients[i];
+
     if (numberOfTerms == 0)
         cout << '0' << endl; //вивести 0, якщо не були введені коефіцієнти
 
@@ -114,6 +121,7 @@ Polynomial& Polynomial::operator=(const Polynomial& other)
 // оператор додавання
 Polynomial Polynomial::operator+(const Polynomial& other) const
 {
+    bool boo = false;
     int maxOfTerms; //старший коефіцієнт
     if (other.numberOfTerms > numberOfTerms)
         maxOfTerms = other.numberOfTerms;
@@ -121,29 +129,24 @@ Polynomial Polynomial::operator+(const Polynomial& other) const
         maxOfTerms = numberOfTerms;
 
     Complex* poly_coeff = new Complex[maxOfTerms];
-    Complex zero(0, 0);
 
     for (int i = 0; i < maxOfTerms; i++)
     {
-        poly_coeff[i] = zero;
+        poly_coeff[i] = (0, 0);
         poly_coeff[i] = poly_coeff[i] + (coefficients[i]);
         if (i < other.numberOfTerms)
             poly_coeff[i] = poly_coeff[i] + (other.coefficients[i]);
     }
 
-    /*for (int i = 0; i < maxOfTerms; i++)
-    {
-        cout << "poly_coeff[i] " << poly_coeff[i] << endl;
-    }*/
-
     Polynomial poly(poly_coeff, maxOfTerms);
-
     return poly;
 }
 
 // оператор віднімання
 Polynomial Polynomial::operator-(const Polynomial& other) const
 {
+    bool boo = false;
+
     int maxOfTerms; //старший коефіцієнт
     if (other.numberOfTerms > numberOfTerms)
         maxOfTerms = other.numberOfTerms;
@@ -151,29 +154,24 @@ Polynomial Polynomial::operator-(const Polynomial& other) const
         maxOfTerms = numberOfTerms;
 
     Complex* poly_coeff = new Complex[maxOfTerms];
-    Complex zero(0, 0);
 
     for (int i = 0; i < maxOfTerms; i++)
     {
-        poly_coeff[i] = zero;
+        poly_coeff[i] = (0, 0);
         poly_coeff[i] = poly_coeff[i] + coefficients[i];
         if (i < other.numberOfTerms)
             poly_coeff[i] = poly_coeff[i] - other.coefficients[i];
     }
 
-    /*for (int i = 0; i < maxOfTerms; i++)
-    {
-        cout << "poly_coeff[i] " << poly_coeff[i] << endl;
-    }*/
-
     Polynomial poly(poly_coeff, maxOfTerms);
-
     return poly;
 }
 
 // оператор множення
 Polynomial Polynomial::operator*(const Polynomial& other) const
 {
+    bool boo = false;
+
     int maxOfTerms, degree, s = 0;
     if (other.numberOfTerms > numberOfTerms)
         maxOfTerms = other.numberOfTerms;
@@ -182,24 +180,17 @@ Polynomial Polynomial::operator*(const Polynomial& other) const
 
     degree = (numberOfTerms - 1) + (other.numberOfTerms - 1);
 
-    Complex* poly_coeff = new Complex[maxOfTerms];
-    Complex zero(0, 0);
+    Complex* poly_coeff = new Complex[degree];
 
     for (int i = 0; i < degree; i++)
-        for (int j = 0; i < degree; j++)
+        for (int j = 0; j < degree; j++)
         {
-            poly_coeff[s] = zero;
-            poly_coeff[s] = coefficients[i] * other.coefficients[j];
-            s++;
+            poly_coeff[i] = (0, 0);
+            poly_coeff[i] = poly_coeff[i] + coefficients[i];
+            poly_coeff[i] = poly_coeff[i] * other.coefficients[j];
         }
 
-    /*for (int i = 0; i < maxOfTerms; i++)
-    {
-        cout << "poly_coeff[i] " << poly_coeff[i] << endl;
-    }*/
-
     Polynomial poly(poly_coeff, degree);
-
     return poly;
 }
 
@@ -235,13 +226,7 @@ Polynomial Polynomial::derivative()
         poly_coeff[i] = c;
     }
 
-    /*for (int i = 0; i < numberOfTerms - 1; i++)
-    {
-        cout << "poly_coeff[i] " << poly_coeff[i] << endl;
-    }*/
-
     Polynomial der(poly_coeff, numberOfTerms - 1);
-
     return der;
 }
 
@@ -265,5 +250,5 @@ ostream& operator<<(ostream& out, const Polynomial& cp) {
 
 Polynomial::~Polynomial()
 {
-    delete[] coefficients;
+    
 }

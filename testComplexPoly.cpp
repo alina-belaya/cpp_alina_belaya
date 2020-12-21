@@ -54,10 +54,10 @@ void start(string a_string, string b_string, string x_string)
     size_x = x_vector.size() / 2;
     Complex x = x_value[0];
 
-    cout << "\nHow do you want to output polynomial?\nPut 0 to output through console or 1 - through file: ";
+    cout << "\nHow do you want to output polynomial?\nPut 1 to output through console or 2 - through file: ";
     cin >> out;
 
-    if (out == 0)
+    if (out == 1)
     {
         ofstream output("output.txt");
 
@@ -67,7 +67,7 @@ void start(string a_string, string b_string, string x_string)
         cout << "\nPolynomial B\n";
         cout << b << endl;
 
-        cout << "\nValue in x\n";
+        cout << "\nValue of A in x\n";
         cout << a.value(x) << endl;
 
         cout << "\nA + B\n";
@@ -75,17 +75,19 @@ void start(string a_string, string b_string, string x_string)
         cout << add << endl;
 
         cout << "\nA - B\n";
-        Polynomial divis = a - b;
-        cout << divis << endl;
+        cout << (a - b) << endl;
 
         cout << "\nDerivative\n";
-        cout << a.derivative() << endl;
+        Polynomial d = a.derivative();
+        cout << d << endl;
+
+        cout << "\nValue of derivative in x\n";
+        cout << d.value(x) << endl;
 
         cout << "\nA * B\n";
-        Polynomial multi = a * b;
-        cout << multi << endl;
+        cout << a * b << endl;
     }
-    else if (out == 1)
+    else if (out == 2)
     {
         ofstream output("output.txt");
 
@@ -95,7 +97,7 @@ void start(string a_string, string b_string, string x_string)
         output << "\nPolynomial B\n";
         output << b << endl;
 
-        output << "\nValue in x\n";
+        output << "\nValue of A in x\n";
         output << a.value(x) << endl;
 
         output << "\nA + B\n";
@@ -105,7 +107,11 @@ void start(string a_string, string b_string, string x_string)
         output << a - b << endl;
 
         output << "\nDerivative\n";
-        output << a.derivative() << endl;
+        Polynomial d = a.derivative();
+        output << d << endl;
+
+        output << "\nValue of derivative in x\n";
+        output << d.value(x) << endl;
 
         output << "\nA * B\n";
         output << a * b << endl;
@@ -151,20 +157,18 @@ void file()
 void run_project()
 {
 	int running;
-    cout << "How do you want to input polynomial?\nPut 0 to input through console or 1 - through file: ";
+    cout << "How do you want to input polynomial?\nPut 1 to input through console or 2 - through file: ";
 	cin >> running;
 
-    if (running == 0)
+    if (running == 1)
         console();
-    else if (running == 1)
+    else if (running == 2)
         file();
     else
         cout << "Wrong choice" << endl;
 
 }
 
-int main()
-{
+int main() {
     run_project();
-    return 0;
 }
